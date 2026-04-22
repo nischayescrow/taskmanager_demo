@@ -1,0 +1,20 @@
+// 1. Discover the log files
+local.file_match "nestjs_logs" {
+    path_targets = [{
+        __path__ = "/var/log/nestjs/*.log",
+        job      = "nestjs-app",
+    }]
+}
+
+// 2. Read the files
+loki.source.file "local_logs" {
+    targets    = local.file_match.nestjs_logs.targets
+    forward_to = [loki.write.local_loki.receiver]
+}
+
+// 3. Send to Loki
+loki.write "local_loki" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+    }
+}

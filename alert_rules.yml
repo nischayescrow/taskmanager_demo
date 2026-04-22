@@ -1,0 +1,11 @@
+groups:
+  - name: nestjs_alerts
+    rules:
+      - alert: NestJS_HighCPU
+        expr: rate(nestjs_process_cpu_seconds_total[3m])*100 > 20
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'High CPU usage on {{ $labels.instance }}'
+          description: 'NestJS CPU usage is at {{ $value | printf "%.2f" }}% for the last 3 minutes.'
