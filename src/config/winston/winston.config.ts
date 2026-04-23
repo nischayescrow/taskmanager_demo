@@ -2,10 +2,19 @@ import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import * as winston from 'winston';
 import LokiTransport from 'winston-loki';
 
+const removeNullStack = winston.format((info) => {
+  if (info.stack && Array.isArray(info.stack) && info.stack[0] === null) {
+    delete info.stack;
+  }
+  return info;
+});
+
 export const winstonConfig: winston.LoggerOptions = {
+  level: 'debug',
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.errors({ stack: true }),
+    removeNullStack(),
     winston.format.json(),
   ),
   transports: [
@@ -25,7 +34,7 @@ export const winstonConfig: winston.LoggerOptions = {
       labels: { job: 'nestjs-app' },
       json: true,
       batching: false,
-      replaceTimestamp: true,
+      replaceTimestamp: false,
       onConnectionError: (err) => {
         console.log('--- LOKI DEBUG START ---');
         console.error(err);
