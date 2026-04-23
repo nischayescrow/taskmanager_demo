@@ -3,7 +3,8 @@ import * as winston from 'winston';
 import LokiTransport from 'winston-loki';
 
 const removeNullStack = winston.format((info) => {
-  if (info.stack && Array.isArray(info.stack) && info.stack[0] === null) {
+  console.log('removeNullStack: ', info);
+  if (info.stack && Array.isArray(info.stack) && !info.stack[0]) {
     delete info.stack;
   }
   return info;

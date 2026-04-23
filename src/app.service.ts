@@ -136,7 +136,7 @@ export class AppService {
     } catch (error: any) {
       console.log(error);
 
-      this.logger.error('CRITICAL TEST: If you see this, Loki is working');
+      this.logger.error(`CRITICAL TEST: ${error}`);
 
       throw error;
     }
