@@ -136,7 +136,7 @@ export class AppService {
     } catch (error: any) {
       console.log(error);
 
-      this.logger.error(`Opps we got error! : ${error.message}`, error);
+      this.logger.error('Opps we got error!', error);
 
       throw error;
     }
