@@ -3,11 +3,14 @@ import * as winston from 'winston';
 import LokiTransport from 'winston-loki';
 
 export const winstonConfig: winston.LoggerOptions = {
+  format: winston.format.combine(
+    winston.format.errors({ stack: true }),
+    winston.format.timestamp(),
+    winston.format.json(),
+  ),
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
-        winston.format.errors({ stack: true }),
-        winston.format.timestamp(),
         winston.format.ms(),
         nestWinstonModuleUtilities.format.nestLike('TaskMngr', {
           colors: true,
