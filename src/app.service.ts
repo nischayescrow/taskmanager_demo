@@ -136,11 +136,7 @@ export class AppService {
     } catch (error: any) {
       console.log(error);
 
-      this.logger.error('Opps we got error!', {
-        message: error.message,
-        stack: error.stack,
-        context: 'AppService',
-      });
+      this.logger.error('CRITICAL TEST: If you see this, Loki is working');
 
       throw error;
     }

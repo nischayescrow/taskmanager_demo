@@ -24,10 +24,13 @@ export const winstonConfig: winston.LoggerOptions = {
       basicAuth: `${process.env.GRAFANA_LOKI_USER!}:${process.env.GRAFANA_LOKI_TOKEN!}`,
       labels: { job: 'nestjs-app' },
       json: true,
+      batching: false,
       replaceTimestamp: true,
-      batching: true,
-      interval: 5,
-      onConnectionError: (err) => console.error('Loki Connection Error:', err),
+      onConnectionError: (err) => {
+        console.log('--- LOKI DEBUG START ---');
+        console.error(err);
+        console.log('--- LOKI DEBUG END ---');
+      },
     }),
   ],
 };
