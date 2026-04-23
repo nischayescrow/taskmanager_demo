@@ -18,8 +18,9 @@ export const winstonConfig: winston.LoggerOptions = {
     // Direct push to Grafana Cloud Loki
     new LokiTransport({
       host: process.env.GRAFANA_LOKI_URL!,
-      basicAuth: `${process.env.GRAFANA_LOKI_USER!}:${process.env.GRAFANA_LOKI_TOKEN!}`, // UserID:Token
+      basicAuth: `${process.env.GRAFANA_LOKI_USER!}:${process.env.GRAFANA_LOKI_TOKEN!}`,
       labels: { job: 'nestjs-app' },
+      level: 'error',
       json: true,
       format: winston.format.json(),
       replaceTimestamp: true,
