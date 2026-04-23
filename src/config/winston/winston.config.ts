@@ -15,15 +15,6 @@ export const winstonConfig: winston.LoggerOptions = {
       ),
     }),
 
-    // File transport - all logs
-    new winston.transports.File({
-      filename: 'logs/app.log',
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
-      ),
-    }),
-
     // Direct push to Grafana Cloud Loki
     new LokiTransport({
       host: process.env.GRAFANA_LOKI_URL!,
