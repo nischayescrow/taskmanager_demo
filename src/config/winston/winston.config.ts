@@ -3,7 +3,6 @@ import * as winston from 'winston';
 import LokiTransport from 'winston-loki';
 
 const removeNullStack = winston.format((info) => {
-  console.log('removeNullStack: ', info);
   if (info.stack && Array.isArray(info.stack) && !info.stack[0]) {
     delete info.stack;
   }
@@ -11,7 +10,6 @@ const removeNullStack = winston.format((info) => {
 });
 
 export const winstonConfig: winston.LoggerOptions = {
-  level: 'debug',
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.errors({ stack: true }),
@@ -34,8 +32,9 @@ export const winstonConfig: winston.LoggerOptions = {
       basicAuth: `${process.env.GRAFANA_LOKI_USER!}:${process.env.GRAFANA_LOKI_TOKEN!}`,
       labels: { job: 'nestjs-app' },
       json: true,
-      batching: false,
-      replaceTimestamp: false,
+      batching: true,
+      interval: 5,
+      replaceTimestamp: true,
       onConnectionError: (err) => {
         console.log('--- LOKI DEBUG START ---');
         console.error(err);
