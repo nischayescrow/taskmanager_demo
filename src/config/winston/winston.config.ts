@@ -6,6 +6,7 @@ export const winstonConfig: winston.LoggerOptions = {
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
+        winston.format.errors({ stack: true }),
         winston.format.timestamp(),
         winston.format.ms(),
         nestWinstonModuleUtilities.format.nestLike('TaskMngr', {
@@ -20,7 +21,6 @@ export const winstonConfig: winston.LoggerOptions = {
       host: process.env.GRAFANA_LOKI_URL!,
       basicAuth: `${process.env.GRAFANA_LOKI_USER!}:${process.env.GRAFANA_LOKI_TOKEN!}`,
       labels: { job: 'nestjs-app' },
-      level: 'error',
       json: true,
       format: winston.format.json(),
       replaceTimestamp: true,
